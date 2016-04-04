@@ -1,0 +1,26 @@
+fluentd:
+  container_name: fluentd
+  build: fluentd/
+  ports:
+    - "514:514/udp"
+  volumes:
+    - ./fluentd/fluent.conf:/fluentd/etc/fluent.conf
+  links:
+    - elasticsearch
+
+elasticsearch:
+  container_name: elasticsearch
+  image: elasticsearch
+  #ports:
+    #- "9200:9200"
+    #- "9300:9300"
+  volumes:
+    - ./data:/usr/share/elasticsearch/data
+
+kibana:
+  container_name: kibana
+  image: kibana
+  ports:
+    - "5601:5601"
+  links:
+    - elasticsearch
